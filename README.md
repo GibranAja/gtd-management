@@ -60,6 +60,38 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 | POST   | `/logout`    | Logout & hapus token aktif          |
 | GET    | `/user`      | Ambil data pengguna yang sedang login |
 
+#### 📋 Contoh Request Authentication
+
+**POST `/login`**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**POST `/register`**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+```
+
+**POST `/logout`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**GET `/user`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
 ---
 
 ### 📊 Dashboard
@@ -67,6 +99,14 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 | Method | Endpoint       | Fungsi                             |
 |--------|----------------|------------------------------------|
 | GET    | `/dashboard`   | Menampilkan ringkasan sistem GTD   |
+
+#### 📋 Contoh Request Dashboard
+
+**GET `/dashboard`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
 
 ---
 
@@ -80,6 +120,51 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 | PUT    | `/contexts/{id}`     | Update konteks            |
 | DELETE | `/contexts/{id}`     | Hapus konteks             |
 
+#### 📋 Contoh Request Contexts
+
+**GET `/contexts`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**POST `/contexts`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "name": "Office",
+  "icon": "🏢",
+  "color": "#3B82F6"
+}
+```
+
+**GET `/contexts/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /contexts/1
+```
+
+**PUT `/contexts/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "name": "Home Office",
+  "icon": "🏠",
+  "color": "#10B981"
+}
+URL: /contexts/1
+```
+
+**DELETE `/contexts/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /contexts/1
+```
+
 ---
 
 ### 📁 Projects
@@ -92,6 +177,61 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 | PUT    | `/projects/{id}`             | Update proyek                  |
 | DELETE | `/projects/{id}`             | Hapus proyek                   |
 | GET    | `/projects/{id}/next-actions`| Ambil next actions proyek      |
+
+#### 📋 Contoh Request Projects
+
+**GET `/projects`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+Query Parameters (optional): ?status=active
+```
+
+**POST `/projects`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "title": "Website Redesign Project",
+  "description": "Complete redesign of company website",
+  "due_date": "2025-12-31",
+  "status": "active"
+}
+```
+
+**GET `/projects/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /projects/1
+```
+
+**PUT `/projects/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "title": "Website Redesign Project - Updated",
+  "description": "Complete redesign with new features",
+  "due_date": "2025-11-30",
+  "status": "active"
+}
+URL: /projects/1
+```
+
+**DELETE `/projects/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /projects/1
+```
+
+**GET `/projects/{id}/next-actions`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /projects/1/next-actions
+```
 
 ---
 
@@ -114,6 +254,95 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 - `status`: active, completed, cancelled  
 - `context_id`: ID konteks  
 
+#### 📋 Contoh Request GTD Items
+
+**GET `/items`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+Query Parameters (optional): ?type=inbox&status=active&context_id=1
+```
+
+**POST `/items`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "title": "Review project requirements",
+  "description": "Go through the detailed requirements document",
+  "type": "inbox",
+  "due_date": "2025-02-15",
+  "reminder_date": "2025-02-14",
+  "energy_level": 2,
+  "time_estimate": 60,
+  "notes": "Important for project timeline",
+  "project_id": 1,
+  "context_id": 1,
+  "waiting_for_person": null,
+  "waiting_since": null
+}
+```
+
+**GET `/items/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /items/1
+```
+
+**PUT `/items/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "title": "Review project requirements - Updated",
+  "description": "Go through the detailed requirements document and create summary",
+  "type": "next_action",
+  "due_date": "2025-02-16",
+  "reminder_date": "2025-02-15",
+  "energy_level": 3,
+  "time_estimate": 90,
+  "notes": "Updated with additional scope",
+  "project_id": 1,
+  "context_id": 1
+}
+URL: /items/1
+```
+
+**DELETE `/items/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /items/1
+```
+
+**POST `/items/{id}/complete`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /items/1/complete
+```
+
+**POST `/items/{id}/clarify`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "type": "next_action",
+  "context_id": 2,
+  "energy_level": 3,
+  "time_estimate": 45
+}
+URL: /items/1/clarify
+```
+
+**GET `/items/by-context/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /items/by-context/1
+```
+
 ---
 
 ### 📥 Kategori Khusus GTD
@@ -125,6 +354,38 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 | GET `/waiting-for` | Ambil semua waiting items       |
 | GET `/someday-maybe`| Ambil semua someday/maybe      |
 | GET `/reference`   | Ambil semua reference items     |
+
+#### 📋 Contoh Request Kategori Khusus GTD
+
+**GET `/inbox`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**GET `/next-actions`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**GET `/waiting-for`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**GET `/someday-maybe`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**GET `/reference`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
 
 ---
 
@@ -138,6 +399,101 @@ Registrasi/Login → Mendapatkan Token → Gunakan Token untuk Akses Endpoints
 | PUT    | `/weekly-reviews/{id}`          | Update review                 |
 | DELETE | `/weekly-reviews/{id}`          | Hapus review                  |
 | GET    | `/weekly-reviews/current`       | Review minggu ini (atau template) |
+
+#### 📋 Contoh Request Weekly Reviews
+
+**GET `/weekly-reviews`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
+
+**POST `/weekly-reviews`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "review_date": "2025-01-19",
+  "notes": "Weekly review for this week",
+  "review_data": {
+    "completed_projects": [
+      {"id": 1, "title": "Website Setup", "completion_date": "2025-01-15"}
+    ],
+    "completed_items": [
+      {"id": 5, "title": "Design homepage", "completion_date": "2025-01-16"}
+    ],
+    "pending_items": [
+      {"id": 6, "title": "Review content", "status": "in_progress"}
+    ],
+    "new_projects": [
+      {"title": "Mobile App Development", "description": "New mobile app project"}
+    ],
+    "areas_of_focus": [
+      {"area": "Marketing", "status": "needs_attention"},
+      {"area": "Development", "status": "on_track"}
+    ],
+    "accomplishments": [
+      "Completed website design phase",
+      "Client feedback integrated successfully"
+    ],
+    "challenges": [
+      "Resource allocation needs improvement",
+      "Timeline adjustment required"
+    ],
+    "next_week_priorities": [
+      "Start mobile app wireframes",
+      "Schedule client meeting",
+      "Prepare development roadmap"
+    ]
+  }
+}
+```
+
+**GET `/weekly-reviews/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /weekly-reviews/1
+```
+
+**PUT `/weekly-reviews/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body:
+{
+  "review_date": "2025-01-19",
+  "notes": "Updated weekly review notes",
+  "review_data": {
+    "completed_projects": [
+      {"id": 1, "title": "Website Setup", "completion_date": "2025-01-15"},
+      {"id": 2, "title": "Logo Design", "completion_date": "2025-01-17"}
+    ],
+    "completed_items": [
+      {"id": 5, "title": "Design homepage", "completion_date": "2025-01-16"},
+      {"id": 7, "title": "Create contact form", "completion_date": "2025-01-18"}
+    ],
+    "accomplishments": [
+      "Completed website design phase",
+      "Logo design approved by client",
+      "Contact form functionality implemented"
+    ]
+  }
+}
+URL: /weekly-reviews/1
+```
+
+**DELETE `/weekly-reviews/{id}`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+URL: /weekly-reviews/1
+```
+
+**GET `/weekly-reviews/current`**
+```json
+Header: Authorization: Bearer <your-token>
+Body: (tidak ada body)
+```
 
 ---
 
